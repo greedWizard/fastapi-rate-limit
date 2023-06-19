@@ -12,6 +12,9 @@ class IAPIKeyRepository(Protocol):
     async def create(self, user_id: int, session: AsyncSession) -> APIKey:
         ...
 
+    async def get(self, key: str, session: AsyncSession) -> APIKey | None:
+        ...
+
     async def update(
         self,
         key: str,
@@ -31,6 +34,10 @@ class APIKeySQLAlchemyRepository(Protocol):
 
         await session.commit()
         return created_key
+
+    async def get(self, key: str, session: AsyncSession) -> APIKey | None:
+        statement = select(APIKey).where(APIKey.key == key)
+        return (await session.execute(statement)).scalars().first()
 
     async def update(
         self,

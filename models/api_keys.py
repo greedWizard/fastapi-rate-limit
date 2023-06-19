@@ -8,6 +8,7 @@ from models.users import User
 class APIKey:
     key: str
     user_id: int
+    id: int| None = None
     user: User | None = None
     last_used: datetime | None = None
     is_banned: bool = False

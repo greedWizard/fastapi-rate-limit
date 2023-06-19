@@ -9,8 +9,9 @@ from alembic import context
 from common.settings import settings
 
 from repositories.sqlalchemy.common import meta  # no qa
-from repositories.sqlalchemy.users.tables import users_table  # no qa
 from repositories.sqlalchemy.api_keys.tables import api_keys_table  # no qa
+from repositories.sqlalchemy.users.tables import users_table  # no qa
+from repositories.sqlalchemy.responses.tables import responses_table  # no qa
 
 
 # this is the Alembic Config object, which provides
