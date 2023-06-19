@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Protocol
 
+from sqlalchemy import select
+from sqlalchemy import func
 from sqlalchemy.sql import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,6 +19,14 @@ class IResponseRepository(Protocol):
         url: str,
         session: AsyncSession,
     ) -> Response:
+        ...
+
+    async def get_requests_count_from_time(
+        self,
+        api_key_id: str,
+        last_time: datetime,
+        session: AsyncSession,
+    ) -> int:
         ...
 
 
@@ -57,3 +67,17 @@ class ResponseSQLAlchemyRepository:
             'status_code': result[1],
             'count': result[2],    
         } for result in results]
+
+    async def get_requests_count_from_time(
+        self,
+        api_key_id: int,
+        last_time: datetime,
+        session: AsyncSession,
+    ) -> int:
+        statement = select(func.count(Response.id)).where(
+            Response.responded_at >= last_time,
+            Response.responded_at <= datetime.utcnow(),
+            Response.api_key_id == api_key_id,
+        )
+        
+        return (await session.execute(statement)).scalar()

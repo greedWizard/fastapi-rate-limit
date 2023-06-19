@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from models.responses import Response
 
 from repositories.sqlalchemy.responses.repository import IResponseRepository
 
@@ -12,7 +13,7 @@ async def create_response(
     api_key_id: int, 
     response_repository: IResponseRepository,
     session: AsyncSession,
-):
+) -> Response:
     # TODO: verify status_code
     return await response_repository.create(
         api_key_id,

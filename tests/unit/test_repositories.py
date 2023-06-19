@@ -52,7 +52,7 @@ async def test_api_key_repository_update(
     session.add(api_key)
     last_used = datetime.utcnow()
 
-    await api_key_repository.update(key=key, session=session, last_used=last_used, is_banned=True)
+    await api_key_repository.update(key=key, session=session, last_used=last_used, banned_at=datetime.utcnow())
     
-    assert api_key.is_banned
+    assert api_key.banned_at
     assert api_key.last_used == last_used

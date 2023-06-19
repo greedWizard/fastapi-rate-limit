@@ -1,3 +1,4 @@
+from datetime import timedelta
 from distutils.util import strtobool
 import pathlib
 
@@ -26,6 +27,9 @@ class ProjectSettings(BaseSettings):
         f'@{postgres_host}/{postgres_db}'
     )
     minimal_username_length: int = 6
+    limitations_delta: timedelta = timedelta(minutes=env('LIMITATION_MINUTES', default=3))
+    limitations_count: int = env('LIMITATIONS_COUNT', default=10)
+    ban_duration: timedelta = timedelta(minutes=env('BAN_MINUTES', default=1))
 
 
 settings = ProjectSettings()

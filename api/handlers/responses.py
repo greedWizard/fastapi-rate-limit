@@ -7,11 +7,12 @@ from starlette import status
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from api.dependencies.api_keys import create_api_key_repository
-from api.dependencies.responses import create_response_repository, verify_token
+from api.dependencies.responses import create_response_repository, verify_rate_limit, verify_token
 from api.dependencies.users import create_session
 from api.schemas.responses import ResponseResponseSchema
 from repositories.sqlalchemy.api_keys.repositories import IAPIKeyRepository
 from repositories.sqlalchemy.responses.repository import ResponseSQLAlchemyRepository
+from services.api_keys import verify_api_key_rate_limit
 from services.exceptions import LimitationException
 from services.responses import create_response
 
@@ -25,7 +26,7 @@ router = APIRouter(prefix='/responses', tags=['responses'])
     operation_id='getResponses',
     description='Fetch list of responses',
     summary='Fetch list of responses',
-    dependencies=[Depends(verify_token)]
+    dependencies=[Depends(verify_token), Depends(verify_rate_limit)]
 )
 async def fetch_responses_handler(
     request: Request,
@@ -48,15 +49,6 @@ async def fetch_responses_handler(
     except LimitationException as exception:
         response_code = status.HTTP_429_TOO_MANY_REQUESTS
         errors = exception.errors
-
-    await create_response(
-        str(request.url),
-        datetime.utcnow(),
-        status_code=response_code,
-        api_key_id=(await api_key_repository.get(key=request.headers['api-key'], session=session)).id,
-        response_repository=responses_repository,
-        session=session,
-    )
 
     if errors:
         raise HTTPException(status_code=response_code, detail=errors)

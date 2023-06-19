@@ -14,3 +14,8 @@ class SecurityException(Exception):
 @dataclass(frozen=True)
 class LimitationException(Exception):
     errors: dict[str, list[str]]
+
+
+@dataclass(frozen=True)
+class UserBannedException(Exception):
+    errors: dict[str, list[str]]

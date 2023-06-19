@@ -18,7 +18,7 @@ class APIKeyFactory(Factory):
     key = Faker('uuid4')
     user_id = Faker('pyint')
     last_used = None
-    is_banned = False
+    banned_at = False
     created_at = Faker('past_date')
 
     class Meta:

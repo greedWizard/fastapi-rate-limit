@@ -11,7 +11,7 @@ class APIKey:
     id: int| None = None
     user: User | None = None
     last_used: datetime | None = None
-    is_banned: bool = False
+    banned_at: datetime | None = None
     created_at: datetime = field(default_factory=datetime.utcnow)
 
     def __eq__(self, __value: 'APIKey') -> bool:
