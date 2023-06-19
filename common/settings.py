@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 import pathlib
 
 import environ
@@ -12,10 +13,18 @@ env.__class__.read_env(BASE_DIR / '.env')
 
 
 class ProjectSettings(BaseSettings):
-    BASE_DIR: str = str(BASE_DIR)
-    postgres_host: str = env('MONGO_HOST')
-    postgres_port: int = env('MONGO_PORT', int)
-    postgres_db: str = env('MONGO_USERS_DB', default='users-db')
+    debug: str = env('DEBUG', strtobool, default=False)
+    base_dir: str = str(BASE_DIR)
+    postgres_host: str = env('POSTGRES_HOST')
+    postgres_port: int = env('POSTGRES_PORT', int)
+    postgres_db: str = env('POSTGRES_DB')
+    postgres_user: str = env('POSTGRES_USER')
+    postgres_password: str = env('POSTGRES_PASSWORD')
+    db_connection_string: str = (
+        'postgresql+asyncpg://'
+        f'{postgres_user}:{postgres_password}'
+        f'@{postgres_host}/{postgres_db}'
+    )
 
 
 settings = ProjectSettings()

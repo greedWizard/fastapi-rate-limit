@@ -2,11 +2,15 @@ version: '3.9'
 
 services:
   db:
-    container_name: apirldb
+    container_name: apirl-db
     image: postgres:latest
     restart: always
     env_file:
       - ../.env
+    networks:
+      - backend
+    ports:
+      - 5432:5432
 
 volumes:
   dbdata6:

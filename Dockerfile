@@ -7,9 +7,8 @@ WORKDIR /code
 
 RUN apt-get update  && \
     apt install -y python3-dev \
-    libboost-mpi-python-dev \
+    libpq-dev \
     gcc \
-    musl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
