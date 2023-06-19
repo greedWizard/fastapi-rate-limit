@@ -47,4 +47,4 @@ async def test_validate_user(
     assert len(errors['username']) == 1, errors
 
     await validate_username('u', user_repository, session, errors)
-    assert len(errors['username']) == 3, errors
+    assert len(errors['username']) == 2, errors

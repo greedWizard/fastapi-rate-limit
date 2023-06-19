@@ -6,6 +6,7 @@ from datetime import datetime
 class User:
     username: str
     date_joined: datetime = field(default_factory=datetime.utcnow)
+    id: int = None
 
     def __eq__(self, __value: 'User') -> bool:
         return self.username == __value.username

@@ -23,6 +23,6 @@ class SQLAlchemyUserRepository:
         return created_user
 
     async def check_exists(self, username: str, session: AsyncSession) -> bool:
-        return await session.execute(
+        return (await session.execute(
             select(func.count(User.id)
-        ).where(User.username == username)) > 0
+        ).where(User.username == username))).scalar() > 0
