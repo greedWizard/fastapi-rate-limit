@@ -16,8 +16,11 @@ class FakeSession:
 
 class FakeUserRepository:
     async def create(self, username: str, session: FakeSession) -> User:
-        session.add(User(username=username))
+        created_user = User(username=username)
+        session.add(created_user)
         await session.commit()
+
+        return created_user
 
     async def check_exists(self, username: str, session: FakeSession) -> bool:
         return len(

@@ -25,6 +25,7 @@ class ProjectSettings(BaseSettings):
         f'{postgres_user}:{postgres_password}'
         f'@{postgres_host}/{postgres_db}'
     )
+    minimal_username_length: int = 6
 
 
 settings = ProjectSettings()

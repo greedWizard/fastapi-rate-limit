@@ -16,8 +16,11 @@ class IUserRepository(Protocol):
 
 class SQLAlchemyUserRepository:
     async def create(self, username: str, session: AsyncSession) -> User:
-        session.add(User(username=username))
+        created_user = User(username=username)
+        session.add(created_user)
         await session.commit()
+
+        return created_user
 
     async def check_exists(self, username: str, session: AsyncSession) -> bool:
         return await session.execute(
