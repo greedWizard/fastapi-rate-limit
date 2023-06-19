@@ -25,10 +25,10 @@ async def test_user_repository_exists(
     user = UserFactory.create()
     session.add(user)
 
-    exists = await user_repository.check_exists(username=user.username, session=session)
+    exists = await user_repository.check_exists_by_username(username=user.username, session=session)
     assert exists
     
-    exists = await user_repository.check_exists(username='nonexistingusername', session=session)
+    exists = await user_repository.check_exists_by_username(username='nonexistingusername', session=session)
     assert not exists
 
 

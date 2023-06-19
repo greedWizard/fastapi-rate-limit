@@ -26,7 +26,7 @@ class IAPIKeyRepository(Protocol):
 
 class APIKeySQLAlchemyRepository(Protocol):
     async def create(self, user_id: int, session: AsyncSession) -> APIKey:
-        created_key = APIKey(key=uuid.uuid4(), user_id=user_id)
+        created_key = APIKey(key=str(uuid.uuid4()), user_id=user_id)
         session.add(created_key)
 
         await session.commit()

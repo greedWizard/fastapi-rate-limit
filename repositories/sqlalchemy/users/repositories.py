@@ -9,9 +9,11 @@ class IUserRepository(Protocol):
     async def create(self, username: str, session: AsyncSession) -> User:
         ...
 
-    async def check_exists(self, username: str, session: AsyncSession) -> bool:
+    async def check_exists_by_username(self, username: str, session: AsyncSession) -> bool:
         ...
 
+    async def check_exists_by_id(self, id: int, session: AsyncSession) -> bool:
+        ...
 
 class SQLAlchemyUserRepository:
     async def create(self, username: str, session: AsyncSession) -> User:
@@ -21,7 +23,12 @@ class SQLAlchemyUserRepository:
 
         return created_user
 
-    async def check_exists(self, username: str, session: AsyncSession) -> bool:
+    async def check_exists_by_username(self, username: str, session: AsyncSession) -> bool:
         return (await session.execute(
             select(func.count(User.id)
         ).where(User.username == username))).scalar() > 0
+
+    async def check_exists_by_id(self, id: int, session: AsyncSession) -> bool:
+        return (await session.execute(
+            select(func.count(User.id)
+        ).where(User.id == id))).scalar() > 0

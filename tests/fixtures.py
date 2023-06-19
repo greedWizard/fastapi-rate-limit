@@ -34,9 +34,14 @@ class FakeUserRepository:
 
         return created_user
 
-    async def check_exists(self, username: str, session: FakeSession) -> bool:
+    async def check_exists_by_username(self, username: str, session: FakeSession) -> bool:
         return len(
             [user for user in session._objects if user.username == username]
+        ) > 0
+
+    async def check_exists_by_id(self, id: int, session: FakeSession) -> bool:
+        return len(
+            [user for user in session._objects if user.id == id]
         ) > 0
 
 
