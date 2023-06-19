@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "fastapi-api-rate-limit"
+version = "0.1.0"
+description = ""
+authors = ["Vyacheslav B. <skavik46111@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_api_rate_limit"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.97.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.16"}
+django-environ = "^0.10.0"
+uvicorn = "^0.22.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: apirldb
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ../.env
+
+volumes:
+  dbdata6:
+
+networks:
+  backend:
+    driver: bridge
