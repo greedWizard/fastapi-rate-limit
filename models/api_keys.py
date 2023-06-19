@@ -7,8 +7,9 @@ from models.users import User
 @dataclass
 class APIKey:
     key: str
-    user: User
-    last_used: datetime = None
+    user_id: int
+    user: User | None = None
+    last_used: datetime | None = None
     is_banned: bool = False
     created_at: datetime = field(default_factory=datetime.utcnow)
 

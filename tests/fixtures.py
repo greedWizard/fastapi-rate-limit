@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 import random
+import uuid
+from models.api_keys import APIKey
 
 from models.users import User
 
@@ -36,3 +38,30 @@ class FakeUserRepository:
         return len(
             [user for user in session._objects if user.username == username]
         ) > 0
+
+
+class FakeAPIKeyRepository:
+    async def create(self, user_id: int, session: FakeSession) -> APIKey:
+        created_key = APIKey(key=uuid.uuid4(), user_id=user_id)
+        session.add(created_key)
+
+        await session.commit()
+        return created_key
+
+    async def update(
+        self,
+        key: str,
+        session: FakeSession,
+        **update_values,
+    ):
+        updated_object = next(
+            obj for obj in session._objects if obj.key == key
+        )
+
+        for field, value in update_values.items():
+            setattr(updated_object, field, value)
+
+        session.add(updated_object)
+        await session.commit()
+
+        return updated_object

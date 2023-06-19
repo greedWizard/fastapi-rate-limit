@@ -33,6 +33,6 @@ async def test_user_create(
         url,
         json={
             'username': faker.first_name() * 2,
-        }
+        },
     )
     assert response.status_code == status.HTTP_200_OK, response.json()

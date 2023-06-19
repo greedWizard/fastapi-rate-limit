@@ -1,6 +1,5 @@
 from typing import Protocol
 from sqlalchemy import func, select
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.users import User
