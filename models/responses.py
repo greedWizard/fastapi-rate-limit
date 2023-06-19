@@ -5,9 +5,10 @@ from models.api_keys import APIKey
 
 @dataclass
 class Response:
-    id: int
     api_key_id: int
     status_code: int
+    url: str
+    id: int | None = None
     api_key: APIKey | None = None
     responded_at: datetime = field(default_factory=datetime.utcnow)
 

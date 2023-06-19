@@ -9,3 +9,8 @@ class BadDataException(Exception):
 @dataclass(frozen=True)
 class SecurityException(Exception):
     errors: dict[str, list[str]]
+
+
+@dataclass(frozen=True)
+class LimitationException(Exception):
+    errors: dict[str, list[str]]

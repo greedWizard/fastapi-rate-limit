@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Protocol
 
-from sqlalchemy import func, select
 from sqlalchemy.sql import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,6 +14,7 @@ class IResponseRepository(Protocol):
         api_key_id: int,
         status_code: int,
         responded_at: datetime,
+        url: str,
         session: AsyncSession,
     ) -> Response:
         ...
@@ -26,20 +26,23 @@ class ResponseSQLAlchemyRepository:
         api_key_id: int,
         status_code: int,
         responded_at: datetime,
+        url: str,
         session: AsyncSession,
     ) -> Response:
         new_response = Response(
             api_key_id=api_key_id,
             status_code=status_code,
             responded_at=responded_at,
+            url=url,
         )
-        await session.add(new_response)
+        session.add(new_response)
         await session.commit()
 
         return new_response
 
     async def fetch_data(
         self,
+        url: str,
         session: AsyncSession,
         limit: int = 10,
         offset: int = 0,
@@ -47,5 +50,10 @@ class ResponseSQLAlchemyRepository:
         results = await session.execute(text(FETCH_RESPONSES_DATA_SQL), params={
             'limit': limit,
             'offset': offset,
+            'url': url,
         })
-        return [result for result in results]
+        return [{
+            'responded_at': result[0],
+            'status_code': result[1],
+            'count': result[2],    
+        } for result in results]

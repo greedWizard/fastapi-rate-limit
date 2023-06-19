@@ -4,4 +4,5 @@ from pydantic import BaseModel
 
 class ResponseResponseSchema(BaseModel):
     responded_at: datetime
-    response_status: int
+    status_code: int
+    count: int
