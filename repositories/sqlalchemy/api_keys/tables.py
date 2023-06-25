@@ -11,6 +11,6 @@ api_keys_table = sa.Table(
     # как я понял, ключ уникальный для каждого юзера
     sa.Column('user_id', sa.ForeignKey('users.id'), nullable=False, unique=True),
     sa.Column('last_used', sa.DateTime),
-    sa.Column('banned_at', sa.DateTime, default=False),
+    sa.Column('banned_at', sa.DateTime),
     sa.Column('created_at', sa.DateTime, default=sa.func.now()),
 )

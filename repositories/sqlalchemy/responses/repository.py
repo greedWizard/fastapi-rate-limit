@@ -56,7 +56,7 @@ class ResponseSQLAlchemyRepository:
         session: AsyncSession,
         limit: int = 10,
         offset: int = 0,
-    ) -> Response:
+    ) -> list[dict]:
         results = await session.execute(text(FETCH_RESPONSES_DATA_SQL), params={
             'limit': limit,
             'offset': offset,

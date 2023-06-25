@@ -14,7 +14,7 @@ async def validate_username(
     repository: IUserRepository,
     session: AsyncSession,
     errors: MutableMapping[str, list],
-) -> list[str]:
+) -> None:
     if len(username) < settings.minimal_username_length:
         errors['username'].append('Username is too short.')
     if await repository.check_exists_by_username(username, session):
